@@ -3,14 +3,16 @@ package com.pragma.usuarios.application.handler.impl;
 import com.pragma.usuarios.application.dto.JwtResponse;
 import com.pragma.usuarios.application.dto.LoginRequest;
 import com.pragma.usuarios.application.handler.IUserHandler;
+import com.pragma.usuarios.domain.api.IAuthenticationServicePort;
+import com.pragma.usuarios.domain.api.IJwtServicePort;
 import com.pragma.usuarios.domain.api.IUserServicePort;
+import com.pragma.usuarios.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -18,29 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserHandler implements IUserHandler {
 
+    private final IJwtServicePort jwtServicePort;
     private final IUserServicePort userServicePort;
+    private final IAuthenticationServicePort authenticationServicePort;
 
-    private final AuthenticationManager authenticationManager;
+    public JwtResponse authenticate(LoginRequest loginRequest) {
+        authenticationServicePort.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
 
-    public JwtResponse login(LoginRequest loginRequest) {
-        log.info("Authenticating user handler {}", loginRequest.getEmail());
-
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword()
-                    )
-            );
-        }  catch (AuthenticationException e) {
-            log.info("Invalid username or password : {}", e.getMessage());
-        }
-
-        log.info("paso por aqui {}", loginRequest.getEmail());
-
-        var user = userServicePort.findByEmail(loginRequest.getEmail()).orElseThrow(RuntimeException::new);
-
-        log.info("User {} logged in", user.getEmail());
+        User user = userServicePort.findByEmail(loginRequest.getEmail());
 
         var response = new JwtResponse();
 
@@ -48,6 +35,13 @@ public class UserHandler implements IUserHandler {
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setEmail(user.getEmail());
+        response.setToken(jwtServicePort.generateToken(user));
+
+        if (user.getRoles() != null) {
+            response.setRoles(user.getRoles().stream()
+                    .map(role -> role.getName().name())
+                    .collect(Collectors.toList()));
+        }
 
         return response;
     }

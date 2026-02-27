@@ -1,5 +1,6 @@
 package com.pragma.usuarios.infrastructure.config.security;
 
+import com.pragma.usuarios.domain.model.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -8,8 +9,6 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -30,19 +29,18 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generateJwtToken(Authentication authentication) {
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+    public String generateJwtToken(User user) {
 
-        String authorities = userPrincipal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+        String authorities = user.getRoles().stream()
+                .map(role -> "ROLE_" + role.getName().name())
                 .collect(Collectors.joining(","));
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getEmail())
-                .claim("id", userPrincipal.getId())
+                .setSubject(user.getEmail())
+                .claim("id", user.getId())
                 .claim("roles", authorities)
-                .claim("firstName", userPrincipal.getFirstName())
-                .claim("lastName", userPrincipal.getLastName())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)

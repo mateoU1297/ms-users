@@ -5,14 +5,10 @@ import com.pragma.usuarios.application.dto.LoginRequest;
 import com.pragma.usuarios.application.handler.IUserHandler;
 import com.pragma.usuarios.infrastructure.adapter.in.rest.api.AuthenticationApi;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController implements AuthenticationApi {
 
@@ -20,8 +16,7 @@ public class AuthController implements AuthenticationApi {
 
     @Override
     public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest) {
-        log.info("Authenticating user {}", loginRequest.getEmail());
-        JwtResponse response = userHandler.login(loginRequest);
+        JwtResponse response = userHandler.authenticate(loginRequest);
         return ResponseEntity.ok(response);
     }
 

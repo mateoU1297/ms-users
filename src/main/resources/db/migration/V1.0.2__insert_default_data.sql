@@ -20,7 +20,7 @@ INSERT INTO users (
              '+573001234567',
              '1990-01-01',
              'admin@plazacomidas.com',
-             '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2' -- Admin123!
+             '$2a$10$NLqHsE6MjpsFHxzjHTFrvOqLlnTSyBzzpuYBudJoKUda8DOayGzIq' -- Admin123!
          ) ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO user_roles (user_id, role_id)

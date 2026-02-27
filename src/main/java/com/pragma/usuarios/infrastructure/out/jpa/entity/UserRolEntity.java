@@ -1,10 +1,11 @@
-package com.pragma.usuarios.infrastructure.entity;
+package com.pragma.usuarios.infrastructure.out.jpa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +23,18 @@ import java.time.LocalDateTime;
 public class UserRolEntity {
 
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UserRolPK id;
 
+    @ManyToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @ManyToOne
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
+    private RolEntity role;
+
     @Column(name = "assigned_at")
-    private LocalDateTime assigned;
+    private LocalDateTime assignedAt;
 }

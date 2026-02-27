@@ -1,4 +1,4 @@
-package com.pragma.usuarios.infrastructure.entity;
+package com.pragma.usuarios.infrastructure.out.jpa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -11,8 +11,8 @@ import lombok.Setter;
 public class UserRolPK {
 
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
 
     @Column(name = "role_id")
-    private int rolId;
+    private Long roleId;
 }

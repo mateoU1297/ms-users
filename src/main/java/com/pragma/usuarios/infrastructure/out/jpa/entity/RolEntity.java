@@ -1,4 +1,4 @@
-package com.pragma.usuarios.infrastructure.entity;
+package com.pragma.usuarios.infrastructure.out.jpa.entity;
 
 import com.pragma.usuarios.domain.model.enums.RoleName;
 import jakarta.persistence.Column;
@@ -8,7 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles", schema = "user_management")
+@Table(name = "roles")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,8 +46,8 @@ public class RolEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users = new HashSet<>();
+    @OneToMany(mappedBy = "role")
+    private Set<UserRolEntity> userRoles = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

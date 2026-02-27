@@ -1,4 +1,4 @@
-package com.pragma.usuarios.infrastructure.config.security;
+package com.pragma.usuarios.infrastructure.exceptionhandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

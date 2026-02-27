@@ -5,5 +5,5 @@ import com.pragma.usuarios.application.dto.LoginRequest;
 
 public interface IUserHandler {
 
-    JwtResponse login(LoginRequest loginRequest);
+    JwtResponse authenticate(LoginRequest loginRequest);
 }

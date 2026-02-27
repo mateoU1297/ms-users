@@ -2,7 +2,7 @@ package com.pragma.usuarios.domain.spi;
 
 import com.pragma.usuarios.domain.model.User;
 
-public interface IUserPersistencePort {
+public interface IJwtPort {
 
-    User findByEmail(String email);
+    String generateToken(User user);
 }
