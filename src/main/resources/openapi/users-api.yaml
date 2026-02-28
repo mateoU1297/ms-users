@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: Users Microservice API
+  description: API for user management in Plaza de Comidas system
+  version: 1.0.0
+  contact:
+    name: Mateo Castro
+    email: mateocastro1297@gmail.com
+
+servers:
+  - url: http://localhost:8081/api/v1
+    description: Local server
+
+tags:
+  - name: Authentication
+    description: Authentication endpoints
+  - name: Admin
+    description: Admin operations
+  - name: Owners
+    description: Owner operations
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate user and return JWT token
+      operationId: authenticateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi/schemas/schemas-auth.yaml#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-auth.yaml#/components/schemas/JwtResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+      security: []

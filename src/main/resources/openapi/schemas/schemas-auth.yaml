@@ -1,0 +1,39 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "admin@plazacomidas.com"
+        password:
+          type: string
+          format: password
+          example: "Admin123!"
+
+    JwtResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT access token
+        type:
+          type: string
+          default: "Bearer"
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
