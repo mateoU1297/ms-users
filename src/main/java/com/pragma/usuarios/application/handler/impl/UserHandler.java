@@ -3,6 +3,7 @@ package com.pragma.usuarios.application.handler.impl;
 import com.pragma.usuarios.application.dto.JwtResponse;
 import com.pragma.usuarios.application.dto.LoginRequest;
 import com.pragma.usuarios.application.handler.IUserHandler;
+import com.pragma.usuarios.application.mapper.IJwtResponseMapper;
 import com.pragma.usuarios.domain.api.IAuthenticationServicePort;
 import com.pragma.usuarios.domain.api.IJwtServicePort;
 import com.pragma.usuarios.domain.api.IUserServicePort;
@@ -12,13 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.Collectors;
-
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserHandler implements IUserHandler {
+
+    private final IJwtResponseMapper jwtResponseMapper;
 
     private final IJwtServicePort jwtServicePort;
     private final IUserServicePort userServicePort;
@@ -29,19 +30,8 @@ public class UserHandler implements IUserHandler {
 
         User user = userServicePort.findByEmail(loginRequest.getEmail());
 
-        var response = new JwtResponse();
-
-        response.setId(user.getId());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setEmail(user.getEmail());
+        JwtResponse response = jwtResponseMapper.toJwtResponse(user);
         response.setToken(jwtServicePort.generateToken(user));
-
-        if (user.getRoles() != null) {
-            response.setRoles(user.getRoles().stream()
-                    .map(role -> role.getName().name())
-                    .collect(Collectors.toList()));
-        }
 
         return response;
     }

@@ -19,21 +19,4 @@ public class AuthController implements AuthenticationApi {
         JwtResponse response = userHandler.authenticate(loginRequest);
         return ResponseEntity.ok(response);
     }
-
-//    @PostMapping("/logout")
-//    @Operation(summary = "Logout user")
-//    public ResponseEntity<MessageResponse> logoutUser() {
-//        return ResponseEntity.ok(new MessageResponse("Logged out successfully"));
-//    }
-//
-//    @PostMapping("/validate")
-//    @Operation(summary = "Validate JWT token")
-//    public ResponseEntity<MessageResponse> validateToken(@RequestHeader("Authorization") String token) {
-//        boolean isValid = authenticationService.validateToken(token.replace("Bearer ", ""));
-//        if (isValid) {
-//            return ResponseEntity.ok(new MessageResponse("Token is valid"));
-//        } else {
-//            return ResponseEntity.badRequest().body(new MessageResponse("Token is invalid"));
-//        }
-//    }
 }
