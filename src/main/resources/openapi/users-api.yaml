@@ -51,7 +51,6 @@ paths:
             application/json:
               schema:
                 $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
-      security: []
 
   /admin/owner:
     post:
@@ -59,6 +58,8 @@ paths:
       operationId: createOwner
       tags:
         - Admin
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -90,3 +91,11 @@ paths:
             application/json:
               schema:
                 $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Enter your JWT token in the format: Bearer <token>"

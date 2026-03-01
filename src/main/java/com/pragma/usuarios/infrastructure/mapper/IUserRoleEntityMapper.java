@@ -21,7 +21,6 @@ public interface IUserRoleEntityMapper {
     @Mapping(target = "id", source = ".", qualifiedByName = "mapToPK")
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "role", ignore = true)
-    @Mapping(target = "assignedAt", source = "assignedAt")
     UserRoleEntity toEntity(UserRole domain);
 
     @Named("mapToPK")

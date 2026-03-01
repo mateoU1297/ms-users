@@ -15,4 +15,9 @@ public class AuthenticationUseCase implements IAuthenticationServicePort {
     public void authenticate(String email, String password) {
         authenticationPort.authenticate(email, password);
     }
+
+    @Override
+    public String encode(String rawPassword) {
+        return authenticationPort.encode(rawPassword);
+    }
 }

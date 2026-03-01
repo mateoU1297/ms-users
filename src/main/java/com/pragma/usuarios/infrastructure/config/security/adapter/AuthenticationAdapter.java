@@ -9,11 +9,13 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationAdapter implements IAuthenticationPort {
 
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -35,5 +37,10 @@ public class AuthenticationAdapter implements IAuthenticationPort {
             log.error("Authentication failed for email: {} - {}", email, e.getMessage());
             throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String encode(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
     }
 }

@@ -13,12 +13,12 @@ components:
       properties:
         firstName:
           type: string
-          maxLength: 100
+          maxLength: 50
           description: Owner's first name
           example: "John"
         lastName:
           type: string
-          maxLength: 100
+          maxLength: 50
           description: Owner's last name
           example: "Doe"
         documentId:
@@ -47,9 +47,9 @@ components:
         password:
           type: string
           minLength: 8
-          pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$'
+          pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]?).{8,}$'
           description: Password (minimum 8 characters, must include uppercase, lowercase, number and special character)
-          example: "SecurePass123!"
+          example: "SecurePass123"
           format: password
 
     OwnerResponse:

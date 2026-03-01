@@ -9,15 +9,17 @@ import com.pragma.usuarios.application.mapper.IJwtResponseMapper;
 import com.pragma.usuarios.application.mapper.IOwnerResponseMapper;
 import com.pragma.usuarios.domain.api.IAuthenticationServicePort;
 import com.pragma.usuarios.domain.api.IJwtServicePort;
+import com.pragma.usuarios.domain.api.IRoleServicePort;
 import com.pragma.usuarios.domain.api.IUserRoleServicePort;
 import com.pragma.usuarios.domain.api.IUserServicePort;
+import com.pragma.usuarios.domain.model.Role;
 import com.pragma.usuarios.domain.model.User;
+import com.pragma.usuarios.domain.model.UserRole;
+import com.pragma.usuarios.domain.model.enums.RoleName;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class UserHandler implements IUserHandler {
 
     private final IJwtServicePort jwtServicePort;
     private final IUserServicePort userServicePort;
+    private final IRoleServicePort roleServicePort;
     private final IUserRoleServicePort userRoleServicePort;
     private final IAuthenticationServicePort authenticationServicePort;
 
@@ -43,9 +46,16 @@ public class UserHandler implements IUserHandler {
     }
 
     public OwnerResponse createOwner(OwnerRequest ownerRequest) {
-//        userRoleServicePort.save()
-        User entity = ownerResponseMapper.toModel(ownerRequest);
-        return ownerResponseMapper.toResponse(userServicePort.save(entity));
+        User userModel = ownerResponseMapper.toModel(ownerRequest);
+        userModel.setPassword(authenticationServicePort.encode(ownerRequest.getPassword()));
+        OwnerResponse ownerResponse = ownerResponseMapper.toResponse(userServicePort.save(userModel));
+        Role role = roleServicePort.getRoleByName(RoleName.OWNER);
+        UserRole userRole = new UserRole();
+        userRole.setUserId(ownerResponse.getId());
+        userRole.setRoleId(role.getId());
+        userRoleServicePort.save(userRole);
+        ownerResponse.addRolesItem(role.getName().name());
+        return ownerResponse;
     }
 
 }

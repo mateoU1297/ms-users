@@ -7,6 +7,8 @@ public class UserRole {
     private Long roleId;
     private LocalDateTime assignedAt;
 
+    public UserRole() {}
+
     public UserRole(Long userId, Long roleId,  LocalDateTime assignedAt) {
         this.userId = userId;
         this.roleId = roleId;

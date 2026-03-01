@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
         uses = {IRoleEntityMapper.class})
 public interface IUserEntityMapper {
 
+    @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", source = "userRoles", qualifiedByName = "mapUserRolesToRoles")
     User toUser(UserEntity entity);
 
     @Mapping(target = "userRoles", ignore = true)
-    @Mapping(target = "password", ignore = true)
     UserEntity toEntity(User user);
 
     @Named("mapUserRolesToRoles")
