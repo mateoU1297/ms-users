@@ -44,13 +44,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
 
   /admin/owner:
     post:
@@ -78,19 +78,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
         '409':
           description: Conflict - email or document already exists
           content:
             application/json:
               schema:
-                $ref: '../openapi/schemas/schemas-common.yaml#/components/schemas/ErrorResponse'
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
 
 components:
   securitySchemes:
