@@ -9,9 +9,9 @@ openApiGenerate {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/openapi/users-api.yaml"
 	outputDir = "$buildDir/generated"
-	apiPackage = "com.pragma.usuarios.infrastructure.adapter.in.rest.api"
-	modelPackage = "com.pragma.usuarios.application.dto"
-	invokerPackage = "com.pragma.usuarios.infrastructure"
+	apiPackage = "com.pragma.users.infrastructure.adapter.in.rest.api"
+	modelPackage = "com.pragma.users.application.dto"
+	invokerPackage = "com.pragma.users.infrastructure"
 
 	configOptions = [
 			dateLibrary: "java17",
@@ -25,7 +25,9 @@ openApiGenerate {
 			useTags: "true",
 			library: "spring-boot",
 			serializableModel: "true",
-			jakarta: "true"
+			jakarta: "true",
+			useBeanValidation: "true",
+			performBeanValidation: "true"
 	]
 
 	globalProperties = [
@@ -78,8 +80,8 @@ dependencies {
 
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
-	implementation 'org.springdoc:springdoc-openapi-starter-common:2.3.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+	implementation 'org.springdoc:springdoc-openapi-starter-common:2.8.13'
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
 
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'

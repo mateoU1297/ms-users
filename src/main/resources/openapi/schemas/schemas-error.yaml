@@ -1,0 +1,49 @@
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
+        error:
+          type: string
+          description: Error code for client-side handling
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "The request contains invalid fields"
+        path:
+          type: string
+          description: Request path that generated the error
+          example: "/api/v1/admin/owner"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+          example: "2026-03-01T15:30:45.123Z"
+        details:
+          type: object
+          description: Additional error details (field errors, etc.)
+          additionalProperties: true
+          example: {
+            "email": "Email is required",
+            "password": "Password must be at least 8 characters"
+          }
+        errors:
+          type: array
+          description: List of specific field errors
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "email"
+              rejectedValue:
+                type: string
+                example: "invalid-email"
+              message:
+                type: string
+                example: "must be a well-formed email address"
