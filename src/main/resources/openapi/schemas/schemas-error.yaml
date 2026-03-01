@@ -32,10 +32,6 @@ components:
             "email": "Email is required",
             "password": "Password must be at least 8 characters"
           }
-        debugMessage:
-          type: string
-          description: Technical details for debugging (only in development)
-          example: "MethodArgumentNotValidException: Validation failed for field 'email'"
         errors:
           type: array
           description: List of specific field errors

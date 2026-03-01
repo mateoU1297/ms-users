@@ -26,16 +26,17 @@ public class AuthenticationAdapter implements IAuthenticationPort {
             );
         } catch (BadCredentialsException e) {
             log.error("Bad credentials for email: {}", email);
-            throw new RuntimeException("Invalid email or password");
+            throw new BadCredentialsException("Invalid email or password");
         } catch (DisabledException e) {
             log.error("User disabled: {}", email);
-            throw new RuntimeException("User account is disabled");
+            throw new DisabledException("User account is disabled");
         } catch (LockedException e) {
             log.error("User locked: {}", email);
-            throw new RuntimeException("User account is locked");
+            throw new LockedException("User account is locked");
         } catch (AuthenticationException e) {
             log.error("Authentication failed for email: {} - {}", email, e.getMessage());
-            throw new RuntimeException("Authentication failed: " + e.getMessage());
+            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {
+            };
         }
     }
 
