@@ -8,7 +8,7 @@ info:
     email: mateocastro1297@gmail.com
 
 servers:
-  - url: http://localhost:8081/api/v1
+  - url: http://localhost:8081/api/v1/users
     description: Local server
 
 tags:
@@ -59,7 +59,7 @@ paths:
       tags:
         - Admin
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       requestBody:
         required: true
         content:
@@ -79,8 +79,68 @@ paths:
             application/json:
               schema:
                 $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - email or document already exists
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+  
+  /admin/user/{userId}:
+    get:
+      summary: Get user by Id
+      operationId: getUserById
+      tags:
+        - Admin
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID of the user to retrieve
+      responses:
+        '200':
+          description: User found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-owner.yaml#/components/schemas/OwnerResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi/schemas/schemas-error.yaml#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
           content:
             application/json:
               schema:

@@ -10,4 +10,6 @@ public interface IUserHandler {
     JwtResponse authenticate(LoginRequest loginRequest);
 
     OwnerResponse createOwner(OwnerRequest ownerRequest);
+
+    OwnerResponse getUserById(Long userId);
 }

@@ -20,4 +20,10 @@ public class AdminController implements AdminApi {
         return ResponseEntity.ok(response);
     }
 
+    @Override
+    public ResponseEntity<OwnerResponse> getUserById(Long userId) {
+        OwnerResponse response = userHandler.getUserById(userId);
+        return ResponseEntity.ok(response);
+    }
+
 }
