@@ -247,4 +247,21 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.internalServerError().body(errorResponse);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException ex, HttpServletRequest request) {
+
+        ErrorResponse error = ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(ex.getErrorCode())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .details(ex.getDetails())
+                .build();
+
+        return ResponseEntity.badRequest().body(error);
+    }
+
 }

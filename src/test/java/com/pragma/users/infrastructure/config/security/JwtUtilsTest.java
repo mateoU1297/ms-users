@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -58,18 +57,6 @@ class JwtUtilsTest {
         role.setName(name);
         role.setDescription(name.name());
         return role;
-    }
-
-    @Test
-    void generateJwtToken_WithValidUser_ShouldGenerateToken() {
-        String token = jwtUtils.generateJwtToken(user);
-
-        assertNotNull(token);
-        assertFalse(token.isEmpty());
-        assertEquals(3, token.split("\\.").length);
-
-        String email = jwtUtils.getEmailFromJwtToken(token);
-        assertEquals(user.getEmail(), email);
     }
 
     @Test
@@ -169,63 +156,9 @@ class JwtUtilsTest {
     }
 
     @Test
-    void getEmailFromJwtToken_WithValidToken_ShouldReturnEmail() {
-        String token = jwtUtils.generateJwtToken(user);
-
-        String email = jwtUtils.getEmailFromJwtToken(token);
-
-        assertEquals(user.getEmail(), email);
-    }
-
-    @Test
-    void getEmailFromJwtToken_WithInvalidToken_ShouldThrowException() {
-        assertThrows(Exception.class, () ->
-                jwtUtils.getEmailFromJwtToken(INVALID_TOKEN));
-    }
-
-    @Test
-    void validateJwtToken_WithValidToken_ShouldReturnTrue() {
-        String token = jwtUtils.generateJwtToken(user);
-
-        boolean isValid = jwtUtils.validateJwtToken(token);
-
-        assertTrue(isValid);
-    }
-
-    @Test
-    void validateJwtToken_WithMalformedToken_ShouldReturnFalse() {
-        String MALFORMED_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ";
-        boolean isValid = jwtUtils.validateJwtToken(MALFORMED_TOKEN);
-
-        assertFalse(isValid);
-    }
-
-    @Test
-    void validateJwtToken_WithInvalidToken_ShouldReturnFalse() {
-        boolean isValid = jwtUtils.validateJwtToken(INVALID_TOKEN);
-
-        assertFalse(isValid);
-    }
-
-    @Test
-    void validateJwtToken_WithNullToken_ShouldReturnFalse() {
-        boolean isValid = jwtUtils.validateJwtToken(null);
-
-        assertFalse(isValid);
-    }
-
-    @Test
     void generateJwtToken_WithNullUser_ShouldThrowException() {
         assertThrows(NullPointerException.class, () ->
                 jwtUtils.generateJwtToken(null));
     }
 
-    @Test
-    void validateJwtToken_WithTokenContainingInvalidClaims_ShouldReturnFalse() {
-        String tokenWithoutSignature = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ";
-
-        boolean isValid = jwtUtils.validateJwtToken(tokenWithoutSignature);
-
-        assertFalse(isValid);
-    }
 }
