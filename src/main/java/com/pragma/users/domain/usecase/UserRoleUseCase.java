@@ -13,7 +13,10 @@ public class UserRoleUseCase implements IUserRoleServicePort {
     }
 
     @Override
-    public UserRole save(UserRole userRole) {
+    public UserRole save(Long ownerId, Long roleId) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(ownerId);
+        userRole.setRoleId(roleId);
         return userRolePersistencePort.save(userRole);
     }
 }

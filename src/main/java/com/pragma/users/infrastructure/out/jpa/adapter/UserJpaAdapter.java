@@ -2,6 +2,7 @@ package com.pragma.users.infrastructure.out.jpa.adapter;
 
 import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.spi.IUserPersistencePort;
+import com.pragma.users.infrastructure.exception.UserNotFoundException;
 import com.pragma.users.infrastructure.mapper.IUserEntityMapper;
 import com.pragma.users.infrastructure.out.jpa.entity.UserEntity;
 import com.pragma.users.infrastructure.repository.UserRepository;
@@ -24,6 +25,14 @@ public class UserJpaAdapter implements IUserPersistencePort {
     @Override
     public User save(User user) {
         UserEntity userEntity = userRepository.save(userEntityMapper.toEntity(user));
+        return userEntityMapper.toUser(userEntity);
+    }
+
+    @Override
+    public User findById(Long id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
         return userEntityMapper.toUser(userEntity);
     }
 }

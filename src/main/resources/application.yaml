@@ -47,7 +47,7 @@ jwt:
 
 logging:
   level:
-    com.pragma.usuarios: DEBUG
+    com.pragma.users: DEBUG
     org.springframework.security: INFO
     org.flywaydb: INFO
 

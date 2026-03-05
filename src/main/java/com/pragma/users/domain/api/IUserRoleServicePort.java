@@ -4,5 +4,5 @@ import com.pragma.users.domain.model.UserRole;
 
 public interface IUserRoleServicePort {
 
-    UserRole save(UserRole userRole);
+    UserRole save(Long ownerId, Long roleId);
 }

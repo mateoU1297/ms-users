@@ -47,15 +47,18 @@ public class UserHandler implements IUserHandler {
 
     public OwnerResponse createOwner(OwnerRequest ownerRequest) {
         User userModel = ownerResponseMapper.toModel(ownerRequest);
-        userModel.setPassword(authenticationServicePort.encode(ownerRequest.getPassword()));
         OwnerResponse ownerResponse = ownerResponseMapper.toResponse(userServicePort.save(userModel));
+
         Role role = roleServicePort.getRoleByName(RoleName.OWNER);
-        UserRole userRole = new UserRole();
-        userRole.setUserId(ownerResponse.getId());
-        userRole.setRoleId(role.getId());
-        userRoleServicePort.save(userRole);
+
+        userRoleServicePort.save(ownerResponse.getId(), role.getId());
         ownerResponse.addRolesItem(role.getName().name());
         return ownerResponse;
+    }
+
+    @Override
+    public OwnerResponse getUserById(Long userId) {
+        return ownerResponseMapper.toResponse(userServicePort.findById(userId));
     }
 
 }

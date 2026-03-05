@@ -7,4 +7,6 @@ public interface IUserServicePort {
     User findByEmail(String email);
 
     User save(User user);
+
+    User findById(Long id);
 }
