@@ -68,6 +68,9 @@ components:
         email:
           type: string
           example: "john.doe@email.com"
+        phoneNumber:
+          type: string
+          example: "+573148527894"
         roles:
           type: array
           items:
